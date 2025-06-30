@@ -15,7 +15,7 @@ AUTHENTICATION METHODS:
 The script will automatically detect which authentication method to use based on available credentials.
 #>
 
-$Config = @{
+$script:Config = @{
     # JAMF Pro Server URL (include https:// or it will be added automatically)
     # Example: "https://company.jamfcloud.com" or "company.jamfcloud.com"
     BaseUrl = "https://your-server.jamfcloud.com"
