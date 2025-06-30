@@ -1,7 +1,7 @@
 # 🔍 JAMF Assignment Checker
 
 <div align="center">
-  <img src="logo.png" alt="JAMF Assignment Checker Logo" width="400" style="margin-bottom: 20px;">
+  <img src="logo.png" alt="JAMF Assignment Checker Logo" width="1280" style="margin-bottom: 20px;">
   
   <p>
     <a href="https://twitter.com/jorge2990">

@@ -5,3 +5,4 @@ claude.md
 .claude
 config.ps1
 *.html
+Tests/
