@@ -254,6 +254,10 @@ Run the script without parameters for a menu-driven interface:
 
 ## 📊 HTML Reports
 
+<div align="center">
+  <img src="sampleReport.jpg" alt="JAMF Assignment Checker Logo" width="1280" style="margin-bottom: 20px;">
+</div>
+
 The HTML report generation creates **enterprise-grade**, interactive reports featuring:
 
 ### 📈 Executive Dashboard
