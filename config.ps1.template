@@ -1,0 +1,60 @@
+# JAMF Assignment Checker Configuration Template
+# Copy this file to 'config.ps1' and fill in your JAMF Pro credentials
+
+<#
+AUTHENTICATION METHODS:
+
+1. Basic Authentication (Username/Password):
+   - Fill in Username and Password fields
+   - Leave ClientId and ClientSecret empty or commented out
+
+2. OAuth Authentication (Client Credentials):
+   - Leave Username and Password empty or commented out
+   - Fill in ClientId and ClientSecret fields
+
+The script will automatically detect which authentication method to use based on available credentials.
+#>
+
+$Config = @{
+    # JAMF Pro Server URL (include https:// or it will be added automatically)
+    # Example: "https://company.jamfcloud.com" or "company.jamfcloud.com"
+    BaseUrl = "https://your-server.jamfcloud.com"
+    
+    # Basic Authentication (Username/Password)
+    Username = "" # Leave empty if using OAuth credentials
+    Password = "" # Leave empty if using OAuth credentials
+    
+    # OAuth Authentication (Client Credentials)
+    # Uncomment the lines below and comment out Username/Password to use OAuth
+    ClientId = ""     # Fill if using OAuth credentials
+    ClientSecret = "" # Fill if using OAuth credentials
+    
+    # Other Configuration
+    ApiVersion = "classic" # Use 'classic', 'v1', 'v2', or 'v3'
+    DataFolder = "C:\JamfReports" # Default output path for reports
+}
+
+# Optional: Environment-specific configurations
+# Uncomment and modify as needed
+
+# Development Environment
+# $DevConfig = @{
+#     BaseUrl = "dev-jamf.company.com"
+#     Username = "dev_user"
+#     Password = "dev_password"
+#     ClientId = ""
+#     ClientSecret = ""
+#     ApiVersion = "classic"
+#     OutputPath = "C:\JamfReports\Dev"
+# }
+
+# Production Environment
+# $ProdConfig = @{
+#     BaseUrl = "prod-jamf.company.com"
+#     Username = ""
+#     Password = ""
+#     ClientId = "prod_client_id"
+#     ClientSecret = "prod_client_secret"
+#     ApiVersion = "classic"
+#     OutputPath = "C:\JamfReports\Prod"
+# }
