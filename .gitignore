@@ -6,3 +6,4 @@ claude.md
 config.ps1
 *.html
 Tests/
+TestResults/

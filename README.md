@@ -4,6 +4,12 @@
   <img src="logo.png" alt="JAMF Assignment Checker Logo" width="1280" style="margin-bottom: 20px;">
   
   <p>
+    <a href="#">
+      <img src="https://img.shields.io/badge/Version-1.1.0-blue?style=flat" alt="Version"/>
+    </a>
+    <a href="#-changelog">
+      <img src="https://img.shields.io/badge/Updated-September%202025-green?style=flat" alt="Last Updated"/>
+    </a>
     <a href="https://twitter.com/jorge2990">
       <img src="https://img.shields.io/badge/Follow-@jorgeasaurus-1DA1F2?style=flat&logo=x&logoColor=white" alt="Twitter Follow"/>
     </a>
@@ -24,7 +30,9 @@ A PowerShell-based utility for analyzing and auditing JAMF Pro policy and config
 - [📖 Usage](#-usage)
 - [💻 Command-Line Examples](#-command-line-examples)
 - [📊 HTML Reports](#-html-reports)
+- [🚧 Development Status](#-development-status)
 - [🤝 Contributing](#-contributing)
+- [📋 Changelog](#-changelog)
 - [📄 License](#-license)
 
 ## 🚀 Quick Start
@@ -56,6 +64,7 @@ A PowerShell-based utility for analyzing and auditing JAMF Pro policy and config
 ### 🎯 Core Assignment Analysis
 - ✅ **Computer Assignment Checking** - Analyze policies and profiles for specific macOS computers
 - ✅ **Mobile Device Assignment Checking** - Analyze profiles for iOS/iPadOS devices
+- ✅ **Group Assignment Checking** - Analyze how specific groups are used across policies and profiles
 - ✅ **Policy Overview** - Display all policies with their assignments and scope
 - ✅ **Configuration Profile Analysis** - Both macOS and mobile device profiles
 - ✅ **Unassigned Resource Detection** - Find policies and profiles without assignments
@@ -168,7 +177,7 @@ Run the script without parameters for a menu-driven interface:
 **Menu Options:**
 1. Check assignments for specific computer(s)
 2. Check assignments for specific user(s) *(Coming Soon)*
-3. Check assignments for specific group(s) *(Coming Soon)*  
+3. Check assignments for specific group(s)  
 4. Check assignments for specific mobile device(s)
 5. Show assignments for ALL computers in environment (exports to CSV)
 6. Show assignments for ALL users in environment (exports to CSV)
@@ -191,6 +200,15 @@ Run the script without parameters for a menu-driven interface:
 
 # Show assignments for ALL computers in environment
 .\JamfAssignmentChecker.ps1 -ShowAllComputerAssignments -ExportToCSV -ExportPath "C:\Reports\AllComputerAssignments.csv"
+```
+
+### Group Assignment Analysis
+```powershell
+# Check single group
+.\JamfAssignmentChecker.ps1 -CheckGroup -GroupNames "All Managed Clients"
+
+# Check multiple groups with CSV export
+.\JamfAssignmentChecker.ps1 -CheckGroup -GroupNames "All Managed Clients,Marketing Department" -ExportToCSV -ExportPath "C:\Reports\GroupAssignments.csv"
 ```
 
 ### Mobile Device Assignment Analysis
@@ -234,8 +252,8 @@ Run the script without parameters for a menu-driven interface:
 | `-MobileDeviceNames`          | Mobile device names to check (comma-separated) |
 | `-CheckUser`                  | Check assignments for users *(Coming Soon)*    |
 | `-UserNames`                  | User names to check *(Coming Soon)*            |
-| `-CheckGroup`                 | Check assignments for groups *(Coming Soon)*   |
-| `-GroupNames`                 | Group names to check *(Coming Soon)*           |
+| `-CheckGroup`                 | Check assignments for groups                   |
+| `-GroupNames`                 | Group names to check (comma-separated)         |
 | `-ShowAllComputerAssignments` | Show assignments for ALL computers             |
 | `-ShowAllUserAssignments`     | Show assignments for ALL users                 |
 | `-ShowAllPolicies`            | Display all policies and assignments           |
@@ -319,11 +337,12 @@ Interactive Features:
 
 ## 🚧 Development Status
 
-**Current Status: 93% Complete (14/15 tasks completed)**
+**Current Status: 93% Complete (15/16 tasks completed)**
 
 ### ✅ Completed Features
 - ✅ **Core infrastructure and computer analysis** - Full assignment checking for macOS computers
 - ✅ **Mobile device support and profile management** - Complete iOS/iPadOS configuration profile analysis
+- ✅ **Group assignment analysis** - Analyze how specific groups are used across policies and profiles
 - ✅ **Policy and profile overview functionality** - Comprehensive resource listing with assignments
 - ✅ **Unassigned resource detection** - Identify policies and profiles without assignments
 - ✅ **CSV export capabilities** - Clean, structured data export without duplicates
@@ -382,6 +401,42 @@ When reporting issues, please include:
 - Error messages and stack traces
 - Steps to reproduce
 
+## 📋 Changelog
+
+### Version 1.1.0 (September 16, 2025)
+#### ✨ New Features
+- **Group Assignment Analysis** - Complete implementation of Option 3 in the menu
+  - Analyze how specific computer groups are used across all policies and profiles
+  - Support for mobile device groups
+  - Identify whether groups are used for inclusion, exclusion, or both
+  - Display group member counts and smart/static group types
+  - New functions: `Get-GroupAssignments.ps1`, `Show-GroupAssignments.ps1`
+  - CSV export support with `Export-GroupAssignmentsToCSV.ps1`
+  - Command-line support via `-CheckGroup` and `-GroupNames` parameters
+
+#### 🐛 Bug Fixes
+- None in this release
+
+#### 📝 Documentation
+- Updated README to reflect group assignment feature availability
+- Added usage examples for group assignment checking
+- Updated development status to 93% complete (15/16 tasks)
+
+### Version 1.0.0 (June 29, 2025)
+#### ✨ Initial Release
+- **Computer Assignment Checking** - Analyze policies and profiles for specific computers
+- **Mobile Device Assignment Checking** - Analyze profiles for iOS/iPadOS devices  
+- **Policy and Profile Overview** - Display all with assignments
+- **Unassigned Resource Detection** - Find policies/profiles without assignments
+- **CSV Export** - Clean, structured data export
+- **HTML Report Generation** - Interactive reports with charts and filtering
+- **Multi-Authentication Support** - Username/password and OAuth client credentials
+- **Modular Architecture** - Organized PowerShell functions in separate files
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## 🙏 Acknowledgments
 
 - **ugurkocde/IntuneAssignmentChecker** - Inspiration and proven assignment analysis patterns
@@ -390,6 +445,12 @@ When reporting issues, please include:
 
 ---
 
-**Ready to optimize your JAMF Pro assignments?** 🚀
-
-Start with the [Quick Start](#-quick-start) guide and explore your JAMF environment like never before!
+<div align="center">
+  <b>Ready to optimize your JAMF Pro assignments? 🚀</b>
+  <br>
+  <br>
+  Start with the <a href="#-quick-start">Quick Start</a> guide and explore your JAMF environment like never before!
+  <br>
+  <br>
+  <i>Version 1.1.0 | September 2025</i>
+</div>

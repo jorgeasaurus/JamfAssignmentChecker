@@ -8,6 +8,18 @@
     This script helps IT administrators analyze and audit JAMF Pro assignments by:
     - Checking assignments for specific computers, users, or groups
     - Showing all policies and profiles with their assignments
+
+.NOTES
+    Version:        1.1.0
+    Author:         Jorgeasaurus
+    Creation Date:  2024-12-29
+    Last Modified:  2025-09-16
+    
+    Version History:
+    1.1.0 - Added group assignment analysis feature (Option 3)
+            Support for analyzing how computer and mobile device groups are used
+            Added Export-GroupAssignmentsToCSV for detailed reporting
+    1.0.0 - Initial release with computer and mobile device assignment checking
     - Finding policies and profiles without assignments
     - Identifying empty groups in assignments
     - Analyzing smart group memberships and their impact
@@ -184,7 +196,7 @@ param(
 )
 
 # Script version
-$script:Version = "1.0.0"
+$script:Version = "1.1.0"
 
 # Check if any command-line parameters were provided
 $parameterMode = $false
@@ -207,7 +219,7 @@ elseif ($GenerateHTMLReport) { $parameterMode = $true; $selectedOption = '12' }
 Write-Host ""
 Write-Host ""
 Write-Host "🔍 JAMF ASSIGNMENT CHECKER" -ForegroundColor Cyan
-Write-Host "Made by Jorgeasaurus 🚀 | Version $script:Version | Last updated: 2025-06-29"
+Write-Host "Made by Jorgeasaurus 🚀 | Version $script:Version | Last updated: 2025-09-16"
 Write-Host ""
 Write-Host "Inspired by Ugur Koc's IntuneAssignmentChecker" -ForegroundColor Gray
 Write-Host ""
@@ -287,7 +299,60 @@ if ($parameterMode) {
         }
         '3' {
             # Check Group Assignments
-            Write-Host "Group assignment checking not yet implemented." -ForegroundColor Yellow
+            if ([string]::IsNullOrWhiteSpace($GroupNames)) {
+                if (-not $parameterMode) {
+                    Write-Host "`nEnter group name(s) to check (comma-separated for multiple):" -ForegroundColor Cyan
+                    $GroupNames = Read-Host
+                }
+                
+                if ([string]::IsNullOrWhiteSpace($GroupNames)) {
+                    Write-Host "ERROR: Group name(s) required" -ForegroundColor Red
+                    if ($parameterMode) { exit 1 }
+                    continue
+                }
+            }
+            
+            # Ask for group type if not in parameter mode
+            $groupType = "Computer"
+            if (-not $parameterMode) {
+                Write-Host "`nSelect group type:" -ForegroundColor Cyan
+                Write-Host "  [1] Computer Group (default)" -ForegroundColor White
+                Write-Host "  [2] Mobile Device Group" -ForegroundColor White
+                $typeChoice = Read-Host "Choice (1 or 2)"
+                
+                if ($typeChoice -eq "2") {
+                    $groupType = "MobileDevice"
+                }
+            }
+            
+            $groups = $GroupNames -split ','
+            $allAssignments = @()
+            
+            foreach ($groupName in $groups) {
+                $groupName = $groupName.Trim()
+                Write-Host "`nAnalyzing group: $groupName ($groupType)" -ForegroundColor Cyan
+                
+                $assignments = Get-GroupAssignments -GroupName $groupName -GroupType $groupType
+                
+                if ($assignments) {
+                    Show-GroupAssignments -Assignments $assignments
+                    $allAssignments += $assignments
+                } else {
+                    Write-Host "Failed to analyze group '$groupName'" -ForegroundColor Red
+                }
+            }
+            
+            # Export if requested
+            if ($ExportToCSV -and $allAssignments.Count -gt 0) {
+                if ([string]::IsNullOrWhiteSpace($ExportPath)) {
+                    $ExportPath = ".\GroupAssignments_$(Get-Date -Format 'yyyyMMdd_HHmmss').csv"
+                }
+                Export-GroupAssignmentsToCSV -Assignments $allAssignments -FilePath $ExportPath
+            }
+            
+            if (-not $parameterMode) {
+                Read-Host "`nPress Enter to continue"
+            }
         }
         '4' {
             # Check Mobile Device Assignments
